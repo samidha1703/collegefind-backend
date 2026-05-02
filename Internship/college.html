@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>College Details – CollegeFind India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: #0B1E3D;
+      background: #F8F9FC;
+      overflow-x: hidden;
+    }
+ 
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #EEF1F8;
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; color: #0B1E3D; text-decoration: none; }
+    .logo span { color: #1A56DB; }
+    .back-btn {
+      display: flex; align-items: center; gap: 8px;
+      background: #EEF1F8; color: #0B1E3D;
+      border: none; padding: 8px 18px; border-radius: 8px;
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-decoration: none; transition: background 0.2s;
+    }
+    .back-btn:hover { background: #dde3f0; }
+ 
+    /* ── HERO BANNER ── */
+    .college-hero {
+      background: linear-gradient(135deg, #0B1E3D 0%, #1A3A6E 60%, #1A56DB 100%);
+      padding: 48px 5% 40px;
+      position: relative; overflow: hidden;
+    }
+    .college-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 80% 50%, rgba(255,107,53,0.12) 0%, transparent 60%);
+    }
+    .hero-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; align-items: center; gap: 28px;
+      position: relative;
+    }
+    .college-logo-big {
+      width: 80px; height: 80px; border-radius: 16px;
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Sora', sans-serif; font-weight: 700; font-size: 22px;
+      color: #fff; flex-shrink: 0;
+    }
+    .hero-text h1 {
+      font-family: 'Sora', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700; color: #fff; margin-bottom: 8px;
+    }
+    .hero-location { font-size: 15px; color: rgba(255,255,255,0.7); margin-bottom: 14px; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 8px; }
+    .hbadge {
+      font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 99px;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .hbadge-gold { background: #F5A623; color: #0B1E3D; border: none; }
+ 
+    /* ── QUICK STATS ROW ── */
+    .quick-stats {
+      background: #fff;
+      border-bottom: 1px solid #EEF1F8;
+    }
+    .qs-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; flex-wrap: wrap;
+    }
+    .qs-item {
+      flex: 1; min-width: 140px;
+      padding: 20px 24px; text-align: center;
+      border-right: 1px solid #EEF1F8;
+    }
+    .qs-item:last-child { border-right: none; }
+    .qs-val { font-family: 'Sora', sans-serif; font-size: 22px; font-weight: 700; color: #1A56DB; }
+    .qs-label { font-size: 12px; color: #9AA3B5; margin-top: 3px; }
+ 
+    /* ── MAIN LAYOUT ── */
+    .main-wrap {
+      max-width: 960px; margin: 32px auto; padding: 0 5%;
+      display: grid; grid-template-columns: 1fr 320px; gap: 24px;
+    }
+ 
+    /* ── CARDS ── */
+    .card {
+      background: #fff; border: 1px solid #EEF1F8;
+      border-radius: 16px; padding: 24px; margin-bottom: 20px;
+    }
+    .card-heading {
+      font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600;
+      color: #0B1E3D; margin-bottom: 18px;
+      padding-bottom: 12px; border-bottom: 1px solid #EEF1F8;
+      display: flex; align-items: center; gap: 8px;
+    }
+ 
+    /* ── COURSES TABLE ── */
+    .courses-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .courses-table th {
+      background: #F8F9FC; color: #9AA3B5; font-weight: 500;
+      padding: 10px 14px; text-align: left; font-size: 12px;
+      border-bottom: 1px solid #EEF1F8;
+    }
+    .courses-table td {
+      padding: 12px 14px; border-bottom: 1px solid #EEF1F8;
+      color: #0B1E3D;
+    }
+    .courses-table tr:last-child td { border-bottom: none; }
+    .courses-table tr:hover td { background: #F8F9FC; }
+    .course-badge {
+      display: inline-block; font-size: 11px; padding: 3px 8px;
+      border-radius: 99px; background: #E8F0FE; color: #1A56DB; font-weight: 500;
+    }
+ 
+    /* ── ABOUT ── */
+    .about-text { font-size: 14px; color: #3D4560; line-height: 1.8; }
+ 
+    /* ── FACILITIES ── */
+    .facilities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; }
+    .facility-item {
+      background: #F8F9FC; border: 1px solid #EEF1F8;
+      border-radius: 10px; padding: 14px 10px; text-align: center;
+    }
+    .facility-icon { font-size: 22px; margin-bottom: 6px; }
+    .facility-name { font-size: 12px; color: #3D4560; font-weight: 500; }
+ 
+    /* ── SIDEBAR ── */
+    .contact-card { background: #fff; border: 1px solid #EEF1F8; border-radius: 16px; padding: 24px; margin-bottom: 20px; }
+    .contact-heading {
+      font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600;
+      color: #0B1E3D; margin-bottom: 16px;
+    }
+    .contact-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid #EEF1F8;
+    }
+    .contact-row:last-of-type { border-bottom: none; }
+    .contact-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: #E8F0FE; display: flex; align-items: center;
+      justify-content: center; font-size: 16px; flex-shrink: 0;
+    }
+    .contact-label { font-size: 11px; color: #9AA3B5; margin-bottom: 2px; }
+    .contact-val { font-size: 13px; font-weight: 500; color: #0B1E3D; word-break: break-all; }
+    .contact-val a { color: #1A56DB; text-decoration: none; }
+    .contact-val a:hover { text-decoration: underline; }
+ 
+    .apply-btn {
+      display: block; width: 100%; padding: 13px;
+      background: #1A56DB; color: #fff;
+      border: none; border-radius: 10px;
+      font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-align: center; text-decoration: none;
+      transition: background 0.2s; margin-top: 16px;
+    }
+    .apply-btn:hover { background: #1347c0; }
+    .save-btn {
+      display: block; width: 100%; padding: 11px;
+      background: #fff; color: #1A56DB;
+      border: 1.5px solid #1A56DB; border-radius: 10px;
+      font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-align: center;
+      transition: background 0.2s; margin-top: 10px;
+    }
+    .save-btn:hover { background: #E8F0FE; }
+ 
+    /* ── KEY FACTS ── */
+    .facts-list { list-style: none; }
+    .facts-list li {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #EEF1F8;
+      font-size: 14px;
+    }
+    .facts-list li:last-child { border-bottom: none; }
+    .fact-key { color: #9AA3B5; }
+    .fact-val { font-weight: 600; color: #0B1E3D; text-align: right; }
+ 
+    /* ── NOT FOUND ── */
+    .not-found {
+      text-align: center; padding: 80px 20px;
+      color: #9AA3B5;
+    }
+ 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .main-wrap { grid-template-columns: 1fr; }
+      .hero-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .qs-item { min-width: 50%; }
+    }
+  </style>
+</head>
+<body>
+ 
+<!-- NAVBAR -->
+<nav>
+  <a class="logo" href="index.html">College<span>Find</span></a>
+  <a class="back-btn" href="index.html">← Back to Search</a>
+</nav>
+ 
+<!-- Content injected by JS below -->
+<div id="page-content"></div>
+ 
+<script>
+ async function loadCollege() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const collegeId = parseInt(params.get('id')) || 1;
+    const response = await fetch(`http://localhost:5000/api/colleges/${collegeId}`);
+    const c = await response.json();
+
+    // ── FACILITY ICONS MAP ──
+    const facilityIcons = {
+      "Library": "📚", "Hostel": "🏠", "Sports Complex": "⚽", "Labs": "🔬",
+      "Cafeteria": "🍽️", "Wi-Fi Campus": "📶", "Medical Centre": "🏥",
+      "Auditorium": "🎭", "Hospital": "🏨", "Research Labs": "🧪",
+      "Research Centre": "🔭", "Innovation Hub": "💡", "Innovation Centre": "💡",
+      "Innovation Studio": "💡", "Research Park": "🏗️", "Swimming Pool": "🏊",
+      "Olympic Pool": "🏊", "Moot Court": "⚖️", "Legal Aid Centre": "📜",
+      "Health Centre": "💊", "International Centre": "🌍", "Museum": "🏛️",
+      "Historic Library": "📖", "Science Labs": "⚗️", "Temple": "🛕",
+      "Sports Ground": "🏃", "Case Study Rooms": "💼", "Anatomy Museum": "🩺",
+      "Simulation Centre": "🖥️", "Chapel": "⛪", "Robotics Lab": "🤖",
+      "Wi-Fi": "📶"
+    };
+
+    // build courses rows
+    const courseRows = c.courses.map(course => `
+      <tr>
+        <td><span class="course-badge">${course}</span></td>
+        <td>${c.type}</td>
+        <td>${c.feesDisplay}</td>
+        <td>${c.exam}</td>
+      </tr>`).join('');
+
+    // build facilities
+    const facilityItems = (c.facilities || []).map(f => `
+      <div class="facility-item">
+        <div class="facility-icon">${facilityIcons[f] || '🏫'}</div>
+        <div class="facility-name">${f}</div>
+      </div>`).join('');
+
+    // inject into page
+    document.getElementById('page-content').innerHTML = `
+      <div class="college-hero">
+        <div class="hero-inner">
+          <div class="college-logo-big">${c.abbr}</div>
+          <div class="hero-text">
+            <h1>${c.name}</h1>
+            <div class="hero-location">📍 ${c.location}</div>
+            <div class="hero-badges">
+              <span class="hbadge-gold hbadge">${c.rating} Rating</span>
+              <span class="hbadge">${c.type}</span>
+              <span class="hbadge">${c.rank}</span>
+              <span class="hbadge">Est. ${c.established}</span>
+              <span class="hbadge">${c.type2}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="quick-stats">
+        <div class="qs-inner">
+          <div class="qs-item"><div class="qs-val">${c.feesDisplay}</div><div class="qs-label">Annual Fees</div></div>
+          <div class="qs-item"><div class="qs-val">${c.exam}</div><div class="qs-label">Entrance Exam</div></div>
+          <div class="qs-item"><div class="qs-val">${c.courses.length}</div><div class="qs-label">Courses Offered</div></div>
+          <div class="qs-item"><div class="qs-val">${c.established}</div><div class="qs-label">Established</div></div>
+          <div class="qs-item"><div class="qs-val">${c.rating}</div><div class="qs-label">NIRF Rank</div></div>
+        </div>
+      </div>
+
+      <div class="main-wrap">
+        <div>
+          <div class="card">
+            <div class="card-heading">📋 About ${c.name}</div>
+            <p class="about-text">${c.about || 'Information coming soon.'}</p>
+          </div>
+          <div class="card">
+            <div class="card-heading">🎓 Courses Offered</div>
+            <table class="courses-table">
+              <thead>
+                <tr>
+                  <th>Course Name</th>
+                  <th>Stream</th>
+                  <th>Fees</th>
+                  <th>Entrance Exam</th>
+                </tr>
+              </thead>
+              <tbody>${courseRows}</tbody>
+            </table>
+          </div>
+          <div class="card">
+            <div class="card-heading">🏫 Campus Facilities</div>
+            <div class="facilities-grid">${facilityItems}</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="contact-card">
+            <div class="contact-heading">📞 Contact Details</div>
+            <div class="contact-row">
+              <div class="contact-icon">📞</div>
+              <div><div class="contact-label">Phone</div><div class="contact-val">${c.phone}</div></div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">✉️</div>
+              <div><div class="contact-label">Email</div><div class="contact-val"><a href="mailto:${c.email}">${c.email}</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">🌐</div>
+              <div><div class="contact-label">Website</div><div class="contact-val"><a href="https://${c.website}" target="_blank">${c.website}</a></div></div>
+            </div>
+            <div class="contact-row">
+              <div class="contact-icon">📍</div>
+              <div><div class="contact-label">Address</div><div class="contact-val">${c.location}</div></div>
+            </div>
+            <a class="apply-btn" href="mailto:${c.email}">Apply / Enquire Now</a>
+            <button class="save-btn" onclick="saveCollege(${c.id})">🔖 Save College</button>
+          </div>
+
+          <div class="contact-card">
+            <div class="contact-heading">📊 Key Facts</div>
+            <ul class="facts-list">
+              <li><span class="fact-key">Type</span><span class="fact-val">${c.type2}</span></li>
+              <li><span class="fact-key">Affiliation</span><span class="fact-val">${c.affiliation}</span></li>
+              <li><span class="fact-key">Established</span><span class="fact-val">${c.established}</span></li>
+              <li><span class="fact-key">Entrance Exam</span><span class="fact-val">${c.exam}</span></li>
+              <li><span class="fact-key">State</span><span class="fact-val">${c.state}</span></li>
+              <li><span class="fact-key">Annual Fees</span><span class="fact-val">${c.feesDisplay}</span></li>
+              <li><span class="fact-key">NIRF Rank</span><span class="fact-val">${c.rating}</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>`;
+
+  } catch(err) {
+    document.getElementById('page-content').innerHTML =
+      '<div style="text-align:center;padding:60px;color:#9AA3B5">❌ Could not load college details. Make sure server is running!</div>';
+    console.log('Error:', err);
+  }
+}
+
+function saveCollege(id) {
+  let saved = JSON.parse(localStorage.getItem('savedColleges') || '[]');
+  if (!saved.includes(id)) {
+    saved.push(id);
+    localStorage.setItem('savedColleges', JSON.stringify(saved));
+    alert('✅ College saved!');
+  } else {
+    alert('ℹ️ Already saved!');
+  }
+}
+
+loadCollege();
+</script>
+</body>
+</html>
+ 

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Compare Colleges – CollegeFind India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: #0B1E3D; background: #F8F9FC; overflow-x: hidden; }
+ 
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+      border-bottom: 1px solid #EEF1F8; padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 64px;
+    }
+    .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; color: #0B1E3D; text-decoration: none; }
+    .logo span { color: #1A56DB; }
+    .back-btn {
+      background: #EEF1F8; color: #0B1E3D; border: none; padding: 8px 18px;
+      border-radius: 8px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif;
+      cursor: pointer; text-decoration: none; transition: background 0.2s;
+    }
+    .back-btn:hover { background: #dde3f0; }
+ 
+    .page-header {
+      background: linear-gradient(135deg, #0B1E3D 0%, #1A3A6E 60%, #1A56DB 100%);
+      padding: 40px 5% 36px; text-align: center; position: relative; overflow: hidden;
+    }
+    .page-header::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 70% 50%, rgba(255,107,53,0.12) 0%, transparent 60%);
+    }
+    .page-header h1 { font-family: 'Sora', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #fff; margin-bottom: 8px; position: relative; }
+    .page-header p { font-size: 15px; color: rgba(255,255,255,0.7); position: relative; }
+ 
+    .main-wrap { max-width: 1100px; margin: 32px auto; padding: 0 5%; }
+ 
+    .selector-section { background: #fff; border: 1px solid #EEF1F8; border-radius: 16px; padding: 24px; margin-bottom: 28px; }
+    .selector-title { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; color: #0B1E3D; margin-bottom: 16px; }
+    .selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+ 
+    .selector-slot { border: 2px dashed #EEF1F8; border-radius: 12px; padding: 16px; text-align: center; position: relative; transition: border-color 0.2s; }
+    .selector-slot.filled { border: 2px solid #1A56DB; }
+    .slot-label { font-size: 11px; font-weight: 600; color: #9AA3B5; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+    .slot-select { width: 100%; border: 1.5px solid #EEF1F8; background: #F8F9FC; color: #0B1E3D; font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 9px 12px; border-radius: 8px; cursor: pointer; outline: none; }
+    .slot-select:focus { border-color: #1A56DB; }
+    .slot-selected-name { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: #1A56DB; margin-top: 8px; display: none; }
+    .slot-clear { position: absolute; top: 10px; right: 10px; background: #EEF1F8; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; cursor: pointer; display: none; align-items: center; justify-content: center; color: #9AA3B5; }
+    .slot-clear:hover { background: #FFE0E0; color: #E53E3E; }
+ 
+    .btn-row { margin-top: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .compare-btn { padding: 12px 32px; background: #1A56DB; color: #fff; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
+    .compare-btn:hover { background: #1347c0; }
+    .compare-btn:disabled { background: #9AA3B5; cursor: not-allowed; }
+    .hint-text { font-size: 13px; color: #9AA3B5; }
+ 
+    .reset-btn { background: #fff; color: #1A56DB; border: 1.5px solid #1A56DB; padding: 10px 24px; border-radius: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; margin-bottom: 20px; }
+    .reset-btn:hover { background: #E8F0FE; }
+ 
+    .compare-section { display: none; }
+    .compare-section.show { display: block; }
+ 
+    /* VERDICT */
+    .verdict-section { background: #fff; border: 1px solid #EEF1F8; border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+    .verdict-title { font-family: 'Sora', sans-serif; font-size: 16px; font-weight: 600; color: #0B1E3D; margin-bottom: 16px; }
+    .verdict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+    .verdict-card { border: 1.5px solid #EEF1F8; border-radius: 12px; padding: 14px; text-align: center; }
+    .verdict-label { font-size: 11px; color: #9AA3B5; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .verdict-winner { font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 700; color: #0B1E3D; margin-bottom: 4px; }
+    .verdict-badge { display: inline-block; background: #F5A623; color: #0B1E3D; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; }
+ 
+    /* TABLE */
+    .compare-table-wrap { background: #fff; border: 1px solid #EEF1F8; border-radius: 16px; overflow: hidden; overflow-x: auto; margin-bottom: 24px; }
+    .compare-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    .compare-table .header-row { background: linear-gradient(135deg, #0B1E3D, #1A56DB); }
+    .compare-table .header-row th { padding: 20px 16px; text-align: center; font-family: 'Sora', sans-serif; font-size: 13px; font-weight: 600; color: #fff; border-right: 1px solid rgba(255,255,255,0.1); }
+    .compare-table .header-row th:first-child { text-align: left; width: 160px; background: rgba(0,0,0,0.2); font-size: 12px; }
+    .compare-table .header-row th:last-child { border-right: none; }
+    .col-abbr { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 11px; margin: 0 auto 6px; }
+    .col-rank { display: inline-block; background: #F5A623; color: #0B1E3D; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 99px; margin-top: 4px; }
+ 
+    .compare-table .cat-row td { background: #F8F9FC; padding: 9px 16px; font-size: 11px; font-weight: 700; color: #9AA3B5; letter-spacing: 1px; text-transform: uppercase; border-top: 1px solid #EEF1F8; }
+    .compare-table .data-row td { padding: 13px 16px; font-size: 13px; color: #0B1E3D; border-top: 1px solid #EEF1F8; border-right: 1px solid #EEF1F8; text-align: center; vertical-align: middle; }
+    .compare-table .data-row td:first-child { text-align: left; font-weight: 500; color: #3D4560; background: #FAFBFD; font-size: 13px; }
+    .compare-table .data-row td:last-child { border-right: none; }
+    .compare-table .data-row:hover td { background: #F0F4FF; }
+    .compare-table .data-row:hover td:first-child { background: #E8EFFE; }
+ 
+    .best-cell { background: #E8F8EF !important; }
+    .best { color: #1A7A45 !important; font-weight: 700 !important; }
+    .worst { color: #C05010 !important; }
+ 
+    .cell-tag { display: inline-block; font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 99px; margin: 2px; }
+    .tag-blue { background: #E8F0FE; color: #1A56DB; }
+    .tag-green { background: #E8F8EF; color: #1A7A45; }
+    .tag-orange { background: #FFF0E8; color: #C05010; }
+  </style>
+</head>
+<body>
+ 
+<nav>
+  <a class="logo" href="file.html">College<span>Find</span></a>
+  <a class="back-btn" href="file.html">← Back to Search</a>
+</nav>
+ 
+<div class="page-header">
+  <h1>⚖️ Compare Colleges</h1>
+  <p>Select up to 3 colleges and compare them side by side</p>
+</div>
+ 
+<div class="main-wrap">
+ 
+  <div class="selector-section">
+    <div class="selector-title">📋 Select Colleges to Compare (min 2, max 3)</div>
+    <div class="selector-grid">
+      <div class="selector-slot" id="slot0">
+        <div class="slot-label">College 1</div>
+        <select class="slot-select" id="select0" onchange="selectCollege(0, this.value)">
+          <option value="">-- Select a College --</option>
+        </select>
+        <div class="slot-selected-name" id="name0"></div>
+        <button class="slot-clear" id="clear0" onclick="clearSlot(0)">✕</button>
+      </div>
+      <div class="selector-slot" id="slot1">
+        <div class="slot-label">College 2</div>
+        <select class="slot-select" id="select1" onchange="selectCollege(1, this.value)">
+          <option value="">-- Select a College --</option>
+        </select>
+        <div class="slot-selected-name" id="name1"></div>
+        <button class="slot-clear" id="clear1" onclick="clearSlot(1)">✕</button>
+      </div>
+      <div class="selector-slot" id="slot2">
+        <div class="slot-label">College 3 (Optional)</div>
+        <select class="slot-select" id="select2" onchange="selectCollege(2, this.value)">
+          <option value="">-- Select a College --</option>
+        </select>
+        <div class="slot-selected-name" id="name2"></div>
+        <button class="slot-clear" id="clear2" onclick="clearSlot(2)">✕</button>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="compare-btn" id="compareBtn" onclick="buildComparison()" disabled>⚖️ Compare Now</button>
+      <span class="hint-text" id="hintText">Select at least 2 colleges to compare</span>
+    </div>
+  </div>
+ 
+  <div id="resetWrap" style="display:none">
+    <button class="reset-btn" onclick="resetAll()">↺ Start New Comparison</button>
+  </div>
+ 
+  <div class="compare-section" id="compareSection">
+    <div class="verdict-section">
+      <div class="verdict-title">🏆 Quick Verdict</div>
+      <div class="verdict-grid" id="verdictGrid"></div>
+    </div>
+    <div class="compare-table-wrap">
+      <table class="compare-table" id="compareTable"></table>
+    </div>
+  </div>
+ 
+</div>
+ 
+<script>
+  let colleges = [];
+  let selected = [null, null, null];
+
+  function populateDropdowns() {
+    const opts = colleges.map(c => `<option value="${c.id}">${c.name} (${c.type})</option>`).join('');
+    [0,1,2].forEach(i => {
+      document.getElementById('select'+i).innerHTML = '<option value="">-- Select a College --</option>' + opts;
+    });
+  }
+
+  function selectCollege(slot, id) {
+    if (!id) { clearSlot(slot); return; }
+    selected[slot] = colleges.find(c => c.id === parseInt(id));
+    document.getElementById('slot'+slot).classList.add('filled');
+    document.getElementById('name'+slot).style.display = 'block';
+    document.getElementById('name'+slot).textContent = selected[slot].name;
+    document.getElementById('clear'+slot).style.display = 'flex';
+    updateBtn();
+  }
+
+  function clearSlot(slot) {
+    selected[slot] = null;
+    document.getElementById('select'+slot).value = '';
+    document.getElementById('slot'+slot).classList.remove('filled');
+    document.getElementById('name'+slot).style.display = 'none';
+    document.getElementById('clear'+slot).style.display = 'none';
+    updateBtn();
+  }
+
+  function updateBtn() {
+    const n = selected.filter(s => s !== null).length;
+    document.getElementById('compareBtn').disabled = n < 2;
+    document.getElementById('hintText').textContent =
+      n < 2 ? 'Select at least 2 colleges to compare' :
+      n === 2 ? '✅ Ready! Click Compare Now' : '✅ 3 colleges selected!';
+  }
+
+  function buildComparison() {
+    const list = selected.filter(s => s !== null);
+    if (list.length < 2) return;
+    document.getElementById('compareSection').classList.add('show');
+    document.getElementById('resetWrap').style.display = 'block';
+    buildVerdicts(list);
+    buildTable(list);
+    document.getElementById('compareSection').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function buildVerdicts(list) {
+    const getRankNum = c => parseInt(c.rank.match(/\d+/)?.[0] || 999);
+    const verdicts = [
+      { label: '🏆 Best NIRF Rank', winner: list.reduce((a,b) => getRankNum(a) <= getRankNum(b) ? a : b).name },
+      { label: '💰 Lowest Fees', winner: list.reduce((a,b) => a.fees < b.fees ? a : b).name },
+      { label: '📚 Most Courses', winner: list.reduce((a,b) => a.courses.length >= b.courses.length ? a : b).name },
+      { label: '🏛️ Oldest College', winner: list.reduce((a,b) => parseInt(a.established) < parseInt(b.established) ? a : b).name },
+      { label: '🏫 Most Facilities', winner: list.reduce((a,b) => a.facilities.length >= b.facilities.length ? a : b).name },
+    ];
+    document.getElementById('verdictGrid').innerHTML = verdicts.map(v => `
+      <div class="verdict-card">
+        <div class="verdict-label">${v.label}</div>
+        <div class="verdict-winner">${v.winner}</div>
+        <div class="verdict-badge">Winner 🏆</div>
+      </div>`).join('');
+  }
+
+  function buildTable(list) {
+    const minFees = Math.min(...list.map(c => c.fees));
+    const maxFees = Math.max(...list.map(c => c.fees));
+    const getRankNum = c => parseInt(c.rank.match(/\d+/)?.[0] || 999);
+    const minRank = Math.min(...list.map(getRankNum));
+    const maxCourses = Math.max(...list.map(c => c.courses.length));
+    const maxFacilities = Math.max(...list.map(c => c.facilities.length));
+
+    const header = `<tr class="header-row">
+      <th>Parameter</th>
+      ${list.map(c => `<th><div class="col-abbr">${c.abbr}</div>${c.name}<br><span class="col-rank">${c.rank}</span></th>`).join('')}
+    </tr>`;
+
+    const rows = [
+      { cat: '📍 BASIC INFO' },
+      { label: 'Location', fn: c => c.location },
+      { label: 'State', fn: c => c.state },
+      { label: 'Established', fn: c => c.established },
+      { label: 'Type', fn: c => `<span class="cell-tag tag-blue">${c.type2}</span>` },
+      { label: 'Affiliation', fn: c => c.affiliation },
+      { cat: '📊 RANKING & FEES' },
+      { label: 'NIRF 2024 Rank', fn: c => `<strong>${c.rank}</strong>`, hl: c => getRankNum(c) === minRank ? 'best' : '' },
+      { label: 'Annual Fees', fn: c => c.feesDisplay, hl: c => c.fees === minFees ? 'best' : c.fees === maxFees ? 'worst' : '' },
+      { label: 'Entrance Exam', fn: c => `<span class="cell-tag tag-orange">${c.exam}</span>` },
+      { cat: '🎓 COURSES' },
+      { label: 'Stream', fn: c => `<span class="cell-tag tag-blue">${c.type}</span>` },
+      { label: 'No. of Courses', fn: c => `<strong>${c.courses.length}</strong>`, hl: c => c.courses.length === maxCourses ? 'best' : '' },
+      { label: 'Top Courses', fn: c => c.courses.slice(0,3).map(x => `<span class="cell-tag tag-green">${x}</span>`).join('') },
+      { cat: '🏫 CAMPUS' },
+      { label: 'No. of Facilities', fn: c => `<strong>${c.facilities.length}</strong>`, hl: c => c.facilities.length === maxFacilities ? 'best' : '' },
+      { label: 'Key Facilities', fn: c => c.facilities.slice(0,4).map(x => `<span class="cell-tag tag-blue">${x}</span>`).join('') },
+      { cat: '📞 CONTACT' },
+      { label: 'Phone', fn: c => c.phone },
+      { label: 'Email', fn: c => `<a href="mailto:${c.email}" style="color:#1A56DB;font-size:12px">${c.email}</a>` },
+      { label: 'Website', fn: c => `<a href="https://${c.website}" target="_blank" style="color:#1A56DB">${c.website}</a>` },
+    ];
+
+    let body = '';
+    rows.forEach(row => {
+      if (row.cat) {
+        body += `<tr class="cat-row"><td colspan="${list.length+1}">${row.cat}</td></tr>`;
+      } else {
+        const cells = list.map(c => {
+          const h = row.hl ? row.hl(c) : '';
+          return `<td class="${h === 'best' ? 'best-cell best' : h === 'worst' ? 'worst' : ''}">${row.fn(c)}</td>`;
+        }).join('');
+        body += `<tr class="data-row"><td>${row.label}</td>${cells}</tr>`;
+      }
+    });
+
+    document.getElementById('compareTable').innerHTML = header + body;
+  }
+
+  function resetAll() {
+    [0,1,2].forEach(i => clearSlot(i));
+    document.getElementById('compareSection').classList.remove('show');
+    document.getElementById('resetWrap').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function loadColleges() {
+    try {
+      const res = await fetch('http://localhost:5000/api/colleges');
+      colleges = await res.json();
+      populateDropdowns();
+    } catch(err) {
+      console.log('Error loading colleges:', err);
+    }
+  }
+
+  loadColleges();
+</script>
+</body>
+</html>

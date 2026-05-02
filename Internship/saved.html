@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Saved Colleges – CollegeFind India</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; color: #0B1E3D; background: #F8F9FC; }
+ 
+    nav { position: sticky; top: 0; z-index: 100; background: rgba(255,255,255,0.95); backdrop-filter: blur(12px); border-bottom: 1px solid #EEF1F8; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .logo { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 20px; color: #0B1E3D; text-decoration: none; }
+    .logo span { color: #1A56DB; }
+    .back-btn { background: #EEF1F8; color: #0B1E3D; border: none; padding: 8px 18px; border-radius: 8px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .back-btn:hover { background: #dde3f0; }
+ 
+    .page-header { background: linear-gradient(135deg, #0B1E3D 0%, #1A3A6E 60%, #1A56DB 100%); padding: 40px 5% 36px; position: relative; overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 70% 50%, rgba(255,107,53,0.12) 0%, transparent 60%); }
+    .header-inner { max-width: 960px; margin: 0 auto; position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .header-text h1 { font-family: 'Sora', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .header-text p { font-size: 15px; color: rgba(255,255,255,0.7); }
+    .count-badge { background: #F5A623; color: #0B1E3D; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 32px; padding: 12px 24px; border-radius: 12px; text-align: center; min-width: 90px; }
+    .count-badge span { display: block; font-size: 11px; font-weight: 600; margin-top: 2px; }
+ 
+    .main-wrap { max-width: 960px; margin: 32px auto; padding: 0 5%; }
+ 
+    .toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+    .toolbar-title { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; color: #0B1E3D; }
+    .toolbar-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-outline { background: #fff; color: #1A56DB; border: 1.5px solid #1A56DB; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .btn-outline:hover { background: #E8F0FE; }
+    .btn-danger { background: #fff; color: #E53E3E; border: 1.5px solid #E53E3E; padding: 8px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
+    .btn-danger:hover { background: #FFF0F0; }
+ 
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+ 
+    .college-card { background: #fff; border: 1.5px solid #EEF1F8; border-radius: 16px; padding: 20px; position: relative; transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; }
+    .college-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(26,86,219,0.10); border-color: #1A56DB; }
+    .card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 14px; }
+    .card-logo { width: 48px; height: 48px; border-radius: 10px; background: #E8F0FE; display: flex; align-items: center; justify-content: center; font-family: 'Sora', sans-serif; font-weight: 700; font-size: 13px; color: #1A56DB; flex-shrink: 0; }
+    .card-name { font-family: 'Sora', sans-serif; font-size: 15px; font-weight: 600; color: #0B1E3D; line-height: 1.3; }
+    .card-location { font-size: 13px; color: #9AA3B5; margin-top: 3px; }
+    .card-rank { position: absolute; top: 16px; right: 16px; background: #F5A623; color: #0B1E3D; font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+    .card-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .badge { font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 99px; }
+    .badge-blue { background: #E8F0FE; color: #1A56DB; }
+    .badge-orange { background: #FFF0E8; color: #C05010; }
+    .badge-green { background: #E8F8EF; color: #1A7A45; }
+    .card-divider { border: none; border-top: 1px solid #EEF1F8; margin-bottom: 14px; }
+    .card-meta { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 14px; }
+    .meta-label { color: #9AA3B5; margin-bottom: 2px; font-size: 11px; }
+    .meta-val { font-weight: 600; color: #0B1E3D; }
+    .card-btns { display: flex; gap: 8px; }
+    .btn-view { flex: 1; padding: 9px; background: #E8F0FE; color: #1A56DB; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: background 0.2s; }
+    .btn-view:hover { background: #d0e2fd; }
+    .btn-remove { padding: 9px 14px; background: #FFF0F0; color: #E53E3E; border: none; border-radius: 8px; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+    .btn-remove:hover { background: #FFD5D5; }
+    .saved-note { font-size: 11px; color: #9AA3B5; margin-top: 10px; text-align: right; }
+ 
+    .empty-state { text-align: center; padding: 80px 20px; }
+    .empty-icon { font-size: 64px; margin-bottom: 16px; }
+    .empty-title { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 600; color: #0B1E3D; margin-bottom: 8px; }
+    .empty-sub { font-size: 15px; color: #9AA3B5; margin-bottom: 28px; line-height: 1.6; }
+    .btn-primary { background: #1A56DB; color: #fff; border: none; padding: 12px 28px; border-radius: 10px; font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .btn-primary:hover { background: #1347c0; }
+ 
+    .tips-card { background: #fff; border: 1px solid #EEF1F8; border-radius: 16px; padding: 20px 24px; margin-top: 32px; }
+    .tips-title { font-family: 'Sora', sans-serif; font-size: 14px; font-weight: 600; color: #0B1E3D; margin-bottom: 14px; }
+    .tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+    .tip-item { display: flex; align-items: flex-start; gap: 10px; }
+    .tip-icon { font-size: 20px; flex-shrink: 0; }
+    .tip-text { font-size: 13px; color: #3D4560; line-height: 1.5; }
+ 
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0B1E3D; color: #fff; padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 999; white-space: nowrap; }
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+<body>
+ 
+<nav>
+  <a class="logo" href="file.html">College<span>Find</span></a>
+  <a class="back-btn" href="file.html">← Back to Search</a>
+</nav>
+ 
+<div class="page-header">
+  <div class="header-inner">
+    <div class="header-text">
+      <h1>🔖 Saved Colleges</h1>
+      <p>Your personal shortlist of colleges</p>
+    </div>
+    <div class="count-badge">
+      <div id="countNum">0</div>
+      <span>Saved</span>
+    </div>
+  </div>
+</div>
+ 
+<div class="main-wrap">
+ 
+  <div class="toolbar" id="toolbar" style="display:none">
+    <div class="toolbar-title" id="toolbarTitle">Your Shortlist</div>
+    <div class="toolbar-btns">
+      <a class="btn-outline" href="compare.html">⚖️ Compare Colleges</a>
+      <button class="btn-danger" onclick="clearAll()">🗑️ Clear All</button>
+    </div>
+  </div>
+ 
+  <div class="cards-grid" id="savedGrid"></div>
+ 
+  <div class="empty-state" id="emptyState" style="display:none">
+    <div class="empty-icon">🔖</div>
+    <div class="empty-title">No colleges saved yet!</div>
+    <div class="empty-sub">Go to any college's detail page<br/>and click <strong>"🔖 Save College"</strong> to add it here.</div>
+    <a class="btn-primary" href="file.html">Browse Colleges →</a>
+  </div>
+ 
+  <div class="tips-card" id="tipsCard" style="display:none">
+    <div class="tips-title">💡 Tips for shortlisting</div>
+    <div class="tips-grid">
+      <div class="tip-item"><div class="tip-icon">🎯</div><div class="tip-text">Save 5–8 colleges across different fee ranges so you have backup options.</div></div>
+      <div class="tip-item"><div class="tip-icon">⚖️</div><div class="tip-text">Use the Compare page to see your saved colleges side by side before deciding.</div></div>
+      <div class="tip-item"><div class="tip-icon">📞</div><div class="tip-text">Contact colleges directly using the phone and email on their detail page.</div></div>
+      <div class="tip-item"><div class="tip-icon">📅</div><div class="tip-text">Check application deadlines on each college's official website before applying.</div></div>
+    </div>
+  </div>
+ 
+</div>
+ 
+<div class="toast" id="toast"></div>
+ 
+<script>
+  const colleges = [
+    { id:1,  name:"IIT Delhi",               abbr:"IIT-D",  location:"New Delhi, Delhi",           type:"Engineering",  feesDisplay:"₹2.38L/yr", exam:"JEE Advanced", rank:"NIRF Engg #4",        courses:["B.Tech CSE","B.Tech EE","B.Tech Mech"] },
+    { id:2,  name:"AIIMS New Delhi",          abbr:"AIIMS",  location:"New Delhi, Delhi",           type:"Medical",      feesDisplay:"₹1,628/yr",  exam:"NEET",         rank:"NIRF Medical #1",      courses:["MBBS","MD General Medicine","MS Surgery"] },
+    { id:3,  name:"IIM Ahmedabad",            abbr:"IIM-A",  location:"Ahmedabad, Gujarat",         type:"Management",   feesDisplay:"₹23L/yr",    exam:"CAT",          rank:"NIRF Mgmt #1",         courses:["MBA","PGP","Executive MBA"] },
+    { id:4,  name:"NLU Delhi",                abbr:"NLU-D",  location:"New Delhi, Delhi",           type:"Law",          feesDisplay:"₹1.8L/yr",   exam:"CLAT",         rank:"NIRF Law #2",          courses:["BA LLB","LLM","PhD Law"] },
+    { id:5,  name:"IIT Bombay",               abbr:"IIT-B",  location:"Mumbai, Maharashtra",        type:"Engineering",  feesDisplay:"₹2.2L/yr",   exam:"JEE Advanced", rank:"NIRF Engg #3",         courses:["B.Tech CSE","B.Tech Mech","M.Tech AI"] },
+    { id:6,  name:"Amity University",         abbr:"AMU",    location:"Noida, Uttar Pradesh",       type:"Engineering",  feesDisplay:"₹3.5L/yr",   exam:"JEE Main",     rank:"NIRF Rank 51-100",     courses:["B.Tech CSE","B.Tech AI & ML","BBA"] },
+    { id:7,  name:"Presidency University",    abbr:"PU",     location:"Kolkata, West Bengal",       type:"Arts",         feesDisplay:"₹12K/yr",    exam:"CUET",         rank:"NIRF Colleges Top 50", courses:["B.Sc Physics","B.A. History","B.A. English"] },
+    { id:8,  name:"BITS Pilani",              abbr:"BITS",   location:"Pilani, Rajasthan",          type:"Engineering",  feesDisplay:"₹5.6L/yr",   exam:"BITSAT",       rank:"NIRF Engg #16",        courses:["B.Tech CSE","B.Tech Mech","B.Pharma"] },
+    { id:9,  name:"Kasturba Medical College", abbr:"KMC",    location:"Manipal, Karnataka",         type:"Medical",      feesDisplay:"₹12L/yr",    exam:"NEET",         rank:"NIRF Medical #27",     courses:["MBBS","BDS","B.Sc Nursing"] },
+    { id:10, name:"Anna University",          abbr:"AU",     location:"Chennai, Tamil Nadu",        type:"Engineering",  feesDisplay:"₹80K/yr",    exam:"JEE Main",     rank:"NIRF State Univ #1",   courses:["B.Tech CSE","B.Tech Civil","B.Tech Mech"] },
+    { id:11, name:"Delhi University",         abbr:"DU",     location:"New Delhi, Delhi",           type:"Arts",         feesDisplay:"₹15K/yr",    exam:"CUET",         rank:"NIRF University #10",  courses:["B.A. English","B.A. Economics","B.Com"] },
+    { id:12, name:"Jadavpur University",      abbr:"JU",     location:"Kolkata, West Bengal",       type:"Engineering",  feesDisplay:"₹25K/yr",    exam:"JEE Main",     rank:"NIRF State Univ #2",   courses:["B.Tech CSE","B.Tech EE","B.Tech Mech"] },
+    { id:13, name:"Banaras Hindu University", abbr:"BHU",    location:"Varanasi, Uttar Pradesh",    type:"Arts",         feesDisplay:"₹8K/yr",     exam:"CUET",         rank:"NIRF University #8",   courses:["B.A. Sanskrit","B.Sc Physics","MBBS"] },
+    { id:14, name:"VIT Vellore",              abbr:"VIT",    location:"Vellore, Tamil Nadu",        type:"Engineering",  feesDisplay:"₹1.98L/yr",  exam:"JEE Main",     rank:"NIRF Engg #11",        courses:["B.Tech CSE","B.Tech AI & ML","B.Tech ECE"] },
+    { id:15, name:"SRM Institute",            abbr:"SRM",    location:"Chennai, Tamil Nadu",        type:"Engineering",  feesDisplay:"₹2.5L/yr",   exam:"JEE Main",     rank:"NIRF Engg #21",        courses:["B.Tech CSE","B.Tech ECE","B.Tech Mech"] },
+    { id:16, name:"Osmania University",       abbr:"OU",     location:"Hyderabad, Telangana",       type:"Arts",         feesDisplay:"₹18K/yr",    exam:"CUET",         rank:"NIRF Univ 51-100",     courses:["B.A. Economics","B.Com","B.Sc Chemistry"] },
+    { id:17, name:"Hyderabad Central Univ",   abbr:"HCU",    location:"Hyderabad, Telangana",       type:"Arts",         feesDisplay:"₹12K/yr",    exam:"CUET",         rank:"NIRF University #14",  courses:["M.A. English","M.Sc Physics","MBA"] },
+    { id:18, name:"NIT Trichy",               abbr:"NIT-T",  location:"Tiruchirappalli, Tamil Nadu",type:"Engineering",  feesDisplay:"₹1.54L/yr",  exam:"JEE Main",     rank:"NIRF Engg #8",         courses:["B.Tech CSE","B.Tech Mech","B.Tech Civil"] },
+    { id:19, name:"Symbiosis International",  abbr:"SIU",    location:"Pune, Maharashtra",          type:"Management",   feesDisplay:"₹6L/yr",     exam:"CAT",          rank:"NIRF Mgmt #21",        courses:["MBA","BBA","LLB"] },
+    { id:20, name:"Jamia Millia Islamia",     abbr:"JMI",    location:"New Delhi, Delhi",           type:"Engineering",  feesDisplay:"₹30K/yr",    exam:"JEE Main",     rank:"NIRF University #3",   courses:["B.Tech CSE","B.Tech ECE","B.A. Mass Comm"] },
+    { id:21, name:"Calcutta Medical College", abbr:"CMC",    location:"Kolkata, West Bengal",       type:"Medical",      feesDisplay:"₹50K/yr",    exam:"NEET",         rank:"NIRF Medical #15",     courses:["MBBS","MD General Medicine","MS Surgery"] },
+    { id:22, name:"Nalsar Univ of Law",       abbr:"NALSAR", location:"Hyderabad, Telangana",       type:"Law",          feesDisplay:"₹1.6L/yr",   exam:"CLAT",         rank:"NIRF Law #3",          courses:["BA LLB","LLM","MBA Law"] },
+    { id:23, name:"IIT Madras",               abbr:"IIT-M",  location:"Chennai, Tamil Nadu",        type:"Engineering",  feesDisplay:"₹2.35L/yr",  exam:"JEE Advanced", rank:"NIRF Engg #1",         courses:["B.Tech CSE","B.Tech Aerospace","M.Tech AI"] },
+    { id:24, name:"Christ University",        abbr:"CU",     location:"Bengaluru, Karnataka",       type:"Management",   feesDisplay:"₹1.8L/yr",   exam:"CAT",          rank:"NIRF Rank 51-100",     courses:["BBA","MBA","B.Com"] },
+    { id:25, name:"Manipal Inst of Tech",     abbr:"MIT",    location:"Manipal, Karnataka",         type:"Engineering",  feesDisplay:"₹4.2L/yr",   exam:"JEE Main",     rank:"NIRF Engg #41",        courses:["B.Tech CSE","B.Tech AI","B.Tech Robotics"] }
+  ];
+ 
+  function getSaved() {
+    try { return JSON.parse(localStorage.getItem('savedColleges') || '[]'); }
+    catch(e) { return []; }
+  }
+ 
+  function setSaved(arr) { localStorage.setItem('savedColleges', JSON.stringify(arr)); }
+ 
+  function removeCollege(id) {
+    setSaved(getSaved().filter(s => s !== id));
+    showToast('✅ Removed from saved list');
+    renderPage();
+  }
+ 
+  function clearAll() {
+    if (confirm('Remove all saved colleges?')) {
+      setSaved([]);
+      showToast('🗑️ All colleges cleared');
+      renderPage();
+    }
+  }
+ 
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+ 
+  function goToCollege(id) { window.location.href = 'college.html?id=' + id; }
+ 
+  function renderPage() {
+    const ids = getSaved();
+    const list = ids.map(id => colleges.find(c => c.id === id)).filter(Boolean);
+ 
+    document.getElementById('countNum').textContent = list.length;
+ 
+    const grid     = document.getElementById('savedGrid');
+    const empty    = document.getElementById('emptyState');
+    const toolbar  = document.getElementById('toolbar');
+    const tips     = document.getElementById('tipsCard');
+ 
+    if (list.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'block';
+      toolbar.style.display = 'none';
+      tips.style.display = 'none';
+      return;
+    }
+ 
+    empty.style.display = 'none';
+    toolbar.style.display = 'flex';
+    tips.style.display = 'block';
+    document.getElementById('toolbarTitle').textContent =
+      `Your Shortlist — ${list.length} college${list.length > 1 ? 's' : ''} saved`;
+ 
+    grid.innerHTML = list.map(c => `
+      <div class="college-card">
+        <div class="card-rank">${c.rank}</div>
+        <div class="card-top">
+          <div class="card-logo">${c.abbr}</div>
+          <div>
+            <div class="card-name">${c.name}</div>
+            <div class="card-location">📍 ${c.location}</div>
+          </div>
+        </div>
+        <div class="card-badges">
+          <span class="badge badge-blue">${c.type}</span>
+          <span class="badge badge-orange">${c.exam}</span>
+          <span class="badge badge-green">${c.courses[0]}</span>
+        </div>
+        <hr class="card-divider"/>
+        <div class="card-meta">
+          <div><div class="meta-label">Annual Fees</div><div class="meta-val">${c.feesDisplay}</div></div>
+          <div><div class="meta-label">Top Course</div><div class="meta-val">${c.courses[0]}</div></div>
+        </div>
+        <div class="card-btns">
+          <button class="btn-view" onclick="goToCollege(${c.id})">📋 View Details</button>
+          <button class="btn-remove" onclick="removeCollege(${c.id})" title="Remove">🗑️</button>
+        </div>
+        <div class="saved-note">🔖 In your shortlist</div>
+      </div>`).join('');
+  }
+ 
+  renderPage();
+</script>
+</body>
+</html>

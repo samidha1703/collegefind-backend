@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CollegeFind India – Discover Your Dream College</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+   <link rel="stylesheet" href="file.css">
+</head>
+<body>
+ 
+<!-- NAVBAR -->
+<nav>
+  <a class="logo" href="#">College<span>Find</span></a>
+  <ul class="nav-links">
+    <li><a href="file.html">🏠 Home</a></li>
+<li><a href="compare.html">⚖️ Compare</a></li>
+<li><a href="saved.html">🔖 Saved</a></li>
+  </ul>
+  <a class="nav-cta" href="#colleges">Get Started</a>
+  <div class="hamburger" onclick="alert('Mobile menu — coming soon!')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+ 
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">🎓 India's College Discovery Platform</div>
+  <h1>Find Your <em>Dream College</em><br/>Across India</h1>
+  <p>Search 500+ colleges by course, state, fees, or entrance exam. Compare side-by-side and make the right choice.</p>
+ 
+  <div class="search-box">
+    <span style="font-size:18px">🔍</span>
+    <input type="text" id="heroSearch" placeholder="Search by college name, course, or city…" />
+    <button class="search-btn" onclick="doSearch()">Search</button>
+  </div>
+ 
+  <div class="quick-filters">
+    <button class="qf-btn" onclick="filterByType('Engineering')">🔧 Engineering</button>
+    <button class="qf-btn" onclick="filterByType('Medical')">🏥 Medical</button>
+    <button class="qf-btn" onclick="filterByType('Management')">💼 Management</button>
+    <button class="qf-btn" onclick="filterByType('Law')">⚖️ Law</button>
+    <button class="qf-btn" onclick="filterByType('Arts')">🎨 Arts & Science</button>
+  </div>
+</section>
+ 
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item"><div class="stat-num">25</div><div class="stat-label">Colleges Listed</div></div>
+  <div class="stat-item"><div class="stat-num">7</div><div class="stat-label">States Covered</div></div>
+  <div class="stat-item"><div class="stat-num">120+</div><div class="stat-label">Courses Available</div></div>
+  <div class="stat-item"><div class="stat-num">NIRF 2024</div><div class="stat-label">Official Data Source</div></div>
+</div>
+ 
+<!-- COLLEGES SECTION -->
+<section class="section" id="colleges">
+  <h2 class="section-title">Explore Top Colleges</h2>
+  <p class="section-sub">Filter by state, course type, or fee range</p>
+ 
+  <div class="filter-bar">
+    <select class="filter-select" id="filterState" onchange="applyFilters()">
+      <option value="">All States</option>
+      <option>Delhi</option>
+      <option>Maharashtra</option>
+      <option>Karnataka</option>
+      <option>Tamil Nadu</option>
+      <option>Uttar Pradesh</option>
+      <option>West Bengal</option>
+      <option>Telangana</option>
+      <option>Rajasthan</option>
+    </select>
+    <select class="filter-select" id="filterType" onchange="applyFilters()">
+      <option value="">All Courses</option>
+      <option>Engineering</option>
+      <option>Medical</option>
+      <option>Management</option>
+      <option>Law</option>
+      <option>Arts</option>
+    </select>
+    <select class="filter-select" id="filterFees" onchange="applyFilters()">
+      <option value="">Any Fees</option>
+      <option value="low">Under ₹1 Lakh/yr</option>
+      <option value="mid">₹1–5 Lakh/yr</option>
+      <option value="high">Above ₹5 Lakh/yr</option>
+    </select>
+    <select class="filter-select" id="filterExam" onchange="applyFilters()">
+      <option value="">Any Entrance Exam</option>
+      <option>JEE Main</option>
+      <option>NEET</option>
+      <option>CAT</option>
+      <option>CLAT</option>
+      <option>CUET</option>
+    </select>
+  </div>
+ 
+  <div class="cards-grid" id="collegesGrid"></div>
+  <div class="no-results" id="noResults">
+    <div class="no-results-icon">🔍</div>
+    <p>No colleges match your filters.<br/>Try changing your search.</p>
+  </div>
+</section>
+ 
+<!-- HOW IT WORKS -->
+<section class="how-section">
+  <div style="max-width:900px;margin:0 auto">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Three simple steps to find your perfect college</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">🔍</div>
+        <div class="step-num-label">Step 01</div>
+        <div class="step-title">Search & Filter</div>
+        <div class="step-desc">Enter your preferred course, state, fees, or entrance exam to narrow down options.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📋</div>
+        <div class="step-num-label">Step 02</div>
+        <div class="step-title">Compare Colleges</div>
+        <div class="step-desc">Select up to 3 colleges and compare fees, courses, rankings, and facilities side by side.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📞</div>
+        <div class="step-num-label">Step 03</div>
+        <div class="step-title">Contact & Apply</div>
+        <div class="step-desc">Get direct contact details — phone, email, and website — and apply with confidence.</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 CollegeFind India &nbsp;·&nbsp; <a href="#">Privacy Policy</a> &nbsp;·&nbsp; <a href="#">Contact Us</a></p>
+  <p style="margin-top:6px">Built with ❤️ to help students across India</p>
+</footer>
+ 
+<script>
+  let colleges = [];
+  let filtered = [];
+
+  function renderCards(list) {
+    const grid = document.getElementById('collegesGrid');
+    const noRes = document.getElementById('noResults');
+    grid.innerHTML = '';
+    if (list.length === 0) { noRes.style.display = 'block'; return; }
+    noRes.style.display = 'none';
+    list.forEach(c => {
+      grid.innerHTML += `
+        <div class="college-card" onclick="goToCollege(${c.id})">
+          <div class="card-rating" style="font-size:10px;padding:3px 7px">${c.rating}</div>
+          <div class="card-top">
+            <div class="card-logo">${c.abbr}</div>
+            <div>
+              <div class="card-name">${c.name}</div>
+              <div class="card-location">📍 ${c.location}</div>
+            </div>
+          </div>
+          <div class="card-badges">
+            <span class="badge badge-blue">${c.type}</span>
+            <span class="badge badge-orange">${c.exam}</span>
+            <span class="badge badge-green">${c.rank}</span>
+          </div>
+          <div class="card-divider"></div>
+          <div class="card-meta">
+            <div><div class="meta-label">Annual Fees</div><div class="meta-val">${c.feesDisplay}</div></div>
+            <div><div class="meta-label">Top Course</div><div class="meta-val">${c.courses[0]}</div></div>
+          </div>
+          <button class="card-btn" onclick="goToCollege(${c.id})">View Details →</button>
+        </div>`;
+    });
+  }
+
+  function goToCollege(id) {
+    window.location.href = 'college.html?id=' + id;
+  }
+
+  function applyFilters() {
+    const state  = document.getElementById('filterState').value;
+    const type   = document.getElementById('filterType').value;
+    const fees   = document.getElementById('filterFees').value;
+    const exam   = document.getElementById('filterExam').value;
+    const search = document.getElementById('heroSearch').value.toLowerCase();
+
+    filtered = colleges.filter(c => {
+      if (state && c.state !== state) return false;
+      if (type  && c.type  !== type)  return false;
+      if (exam  && c.exam  !== exam)  return false;
+      if (fees === 'low'  && c.fees >= 100000) return false;
+      if (fees === 'mid'  && (c.fees < 100000 || c.fees > 500000)) return false;
+      if (fees === 'high' && c.fees <= 500000) return false;
+      if (search && !c.name.toLowerCase().includes(search)
+                 && !c.location.toLowerCase().includes(search)
+                 && !c.type.toLowerCase().includes(search)
+                 && !c.courses.join(' ').toLowerCase().includes(search)) return false;
+      return true;
+    });
+    renderCards(filtered);
+  }
+
+  function doSearch() {
+    applyFilters();
+    document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function filterByType(type) {
+    document.getElementById('filterType').value = type;
+    applyFilters();
+    document.querySelector('.section').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  document.getElementById('heroSearch').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doSearch();
+  });
+
+  async function loadColleges() {
+    try {
+      const response = await fetch('http://localhost:5000/api/colleges');
+      colleges = await response.json();
+      filtered = [...colleges];
+      renderCards(colleges);
+    } catch(err) {
+      console.log('Error loading colleges:', err);
+    }
+  }
+
+  loadColleges();
+</script>
+</body>
+</html>
